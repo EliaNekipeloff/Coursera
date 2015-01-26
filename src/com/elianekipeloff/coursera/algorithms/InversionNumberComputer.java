@@ -1,4 +1,4 @@
-package algorithms;
+package com.elianekipeloff.coursera.algorithms;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -11,9 +11,10 @@ import java.io.IOException;
 public class InversionNumberComputer {
     private int[] array;
     private long inversionsNum;
-    private final static int N = 100000;
+    private final int arrayLength;
 
-    public InversionNumberComputer(String path) {
+    public InversionNumberComputer(String path, int arrayLength) {
+        this.arrayLength = arrayLength;
         array = readData(path);
         inversionsNum = 0L;
 
@@ -42,8 +43,7 @@ public class InversionNumberComputer {
         while (i <= middle && j <= high) {
             if (arr[i] < arr[j]) {
                 temp[k++] = arr[i++];
-            }
-            if (arr[j] < arr[i]) {
+            } else if (arr[j] < arr[i]) {
                 temp[k++] = arr[j++];
                 for (int h = i; h <= middle; h++) {
                     inversionsNum = inversionsNum + 1;
@@ -66,27 +66,12 @@ public class InversionNumberComputer {
     }
 
 
-    public static void main(String[] args) {
-        String filePath = args[0];
-        if (filePath.equals("")) {
-            System.out.println("You should type the path to the input file first.");
-        } else {
-            InversionNumberComputer computer = new InversionNumberComputer(filePath);
-            System.out.println(computer.getInversionsNumber());
-
-            for (int i = 0; i < computer.array.length; i++) {
-                System.out.print(computer.array[i] + " ");
-            }
-        }
-
-    }
-
     private int[] readData(String path) {
         BufferedReader br;
         int[] data;
         try {
             br = new BufferedReader(new FileReader(path));
-            data = new int[N];
+            data = new int[arrayLength];
         } catch (FileNotFoundException e) {
             System.out.println("input file not found");
             return null;
@@ -103,6 +88,10 @@ public class InversionNumberComputer {
         }
 
         return data;
+    }
+
+    public int[] getArray() {
+        return array;
     }
 
 }
