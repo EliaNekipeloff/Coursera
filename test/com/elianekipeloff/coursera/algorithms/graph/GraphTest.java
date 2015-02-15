@@ -4,14 +4,11 @@ import com.elianekipeloff.coursera.algorithms.util.DataReader;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -21,7 +18,7 @@ public class GraphTest {
 
     @Before
     public void setUp() throws IOException{
-        String path = DataReader.getSourcePath("graph.txt");
+        String path = DataReader.getSourcePath("smallGraph.txt");
         adjacencyList = Files.readAllLines(Paths.get(path));
         graph = new Graph(adjacencyList);
     }
@@ -34,15 +31,23 @@ public class GraphTest {
     }
 
     @Test
+    public void testMerge() throws IOException {
+        setUp();
+        Integer first = Integer.valueOf(adjacencyList.get(0).split("\\s")[0]);
+        Integer second = Integer.valueOf(adjacencyList.get(1).split("\\s")[0]);
+        graph.merge(first, second);
+        assertEquals(adjacencyList.size()-1, graph.getSize());
+    }
+    @Test
     public void testRemoveEdge() throws IOException {
         setUp();
         Integer first = Integer.valueOf(adjacencyList.get(0).split("\\s")[0]);
         Integer second = Integer.valueOf(adjacencyList.get(36).split("\\s")[0]);
-        Set<Integer> firstSet = graph.getAdjacentNodes(first);
+        List<Integer> firstSet = graph.getAdjacentNodes(first);
         int firstSizeBefore = firstSet.size();
         firstSet.stream().forEach((a) ->System.out.print(a + " "));
         System.out.println();
-        Set<Integer> secondSet = graph.getAdjacentNodes(second);
+        List<Integer> secondSet = graph.getAdjacentNodes(second);
         int secondSizeBefore = secondSet.size();
         System.out.println();
         secondSet.stream().forEach((a) ->System.out.print(a + " "));
@@ -60,7 +65,7 @@ public class GraphTest {
         setUp();
         int graphSize = graph.getSize();
         Integer first = Integer.valueOf(adjacencyList.get(0).split("\\s")[0]);
-        Set<Integer> set = new HashSet<>();
+        List<Integer> set = new ArrayList<>();
         graph.getAdjacentNodes(first).forEach(set::add);
         for (Integer adj : set) {
             graph.removeEdge(first, adj);

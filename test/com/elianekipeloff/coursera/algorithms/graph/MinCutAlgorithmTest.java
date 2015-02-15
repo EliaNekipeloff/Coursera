@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+
 public class MinCutAlgorithmTest {
 
     private MinCutAlgorithm algorithm;
@@ -19,10 +21,10 @@ public class MinCutAlgorithmTest {
         }
     }
     @Test
-    public void test() {
+    public void test() throws Exception {
         setUp();
-        algorithm.getMinCut();
-        System.out.println(algorithm.getGraphSize());
+        System.out.println(algorithm.getMinCut());
+        //assertEquals(3, algorithm.getMinCut());
     }
 
 }

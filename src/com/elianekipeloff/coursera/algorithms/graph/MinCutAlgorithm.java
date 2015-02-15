@@ -14,18 +14,40 @@ import java.util.Set;
 public class MinCutAlgorithm {
     private Graph graph;
     private final long ATTEMPTS;
+    private int minCutSize;
+    private List<String> adjacencyList;
 
     public MinCutAlgorithm(String path) throws IOException {
-        List<String> adjacencyList = readData(path);
+        adjacencyList = readData(path);
         graph = new Graph(adjacencyList);
-        ATTEMPTS = adjacencyList.size() ^ 2;
+        ATTEMPTS = adjacencyList.size() * adjacencyList.size();
+        minCutSize = adjacencyList.size()*2 -1;
 
     }
 
-    public void getMinCut() {
-        while (graph.getSize() > 0) {
-            contract();
+    public int getMinCut() throws Exception {
+        int attemptNumber = 0;
+        while (attemptNumber < ATTEMPTS) {
+            clear();
+            while (graph.getSize() > 2) {
+                contract();
+            }
+            if (graph.getAdjacentNodes(graph.getNode(0)).size() != graph.getAdjacentNodes(graph.getNode(1)).size()) {
+                throw new Exception("Algorithm error");
+            }
+            int currentMinCutSize = graph.getAdjacentNodes(graph.getNode(0)).size();
+            if (minCutSize > currentMinCutSize) {
+                minCutSize = currentMinCutSize;
+            }
+            System.out.println("Attempt #" + attemptNumber + ": " + currentMinCutSize);
+            attemptNumber++;
+
         }
+        return minCutSize;
+    }
+
+    private void clear() {
+        graph = new Graph(adjacencyList);
     }
 
     public int getGraphSize() {
@@ -38,12 +60,8 @@ public class MinCutAlgorithm {
 
     private void contract() {
         Integer first = getRandomNode();
-        if (graph.getAdjacentNodes(first).size() == 0) {
-            graph.removeNode(first);
-        } else {
-            Integer second = getRandomEdge(first);
-            graph.removeEdge(first, second);
-        }
+        Integer second = getRandomEdge(first);
+        graph.merge(first, second);
     }
 
     private Integer getRandomNode() {
@@ -52,7 +70,7 @@ public class MinCutAlgorithm {
     }
 
     private Integer getRandomEdge(Integer node) {
-        Set<Integer> adjacent = graph.getAdjacentNodes(node);
+        List<Integer> adjacent = graph.getAdjacentNodes(node);
 
         int index = new Random().nextInt(adjacent.size());
         return (Integer) adjacent.toArray()[index];
