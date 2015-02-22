@@ -1,5 +1,6 @@
 package com.elianekipeloff.coursera.algorithms.graph;
 
+import com.elianekipeloff.coursera.algorithms.graph.mincut.MinCutAlgorithm;
 import com.elianekipeloff.coursera.algorithms.util.DataReader;
 import org.junit.Before;
 import org.junit.Test;
