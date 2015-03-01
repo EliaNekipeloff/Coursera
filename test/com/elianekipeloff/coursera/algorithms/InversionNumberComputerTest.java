@@ -2,8 +2,6 @@ package com.elianekipeloff.coursera.algorithms;
 
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
-import java.net.URL;
 
 import static com.elianekipeloff.coursera.algorithms.util.DataReader.getSourcePath;
 import static org.junit.Assert.*;
