@@ -4,7 +4,12 @@ package datastruct;
  * @author Ella Nekipelova
  *         Date: 3/1/2015.
  */
-public abstract class MaxHeap <T extends Comparable<T>> extends Heap<T> {
+public abstract class MaxHeap<T extends Comparable<T>> extends Heap<T> {
+
+    public MaxHeap(int length) {
+        super(length);
+    }
+
     public MaxHeap(String[] array) {
         super(array);
     }
@@ -12,6 +17,7 @@ public abstract class MaxHeap <T extends Comparable<T>> extends Heap<T> {
     public MaxHeap(T[] array) {
         super(array);
     }
+
 
     @Override
     public void insert(T el) {
@@ -28,7 +34,7 @@ public abstract class MaxHeap <T extends Comparable<T>> extends Heap<T> {
     }
 
 
-    public void bubbleDown(int i) {
+    protected void bubbleDown(int i) {
         int currentParentIndex = i;
         int child1Index = getFirstChildIndex(i);
         if (child1Index < lastIndex) {
@@ -42,7 +48,6 @@ public abstract class MaxHeap <T extends Comparable<T>> extends Heap<T> {
         }
     }
 
-
     private int getChildIndexToSwap(int i) {
         int child1Index = getFirstChildIndex(i);
         int child2Index = getSecondChildIndex(i);
@@ -55,5 +60,4 @@ public abstract class MaxHeap <T extends Comparable<T>> extends Heap<T> {
         return indexToSwap;
 
     }
-
 }

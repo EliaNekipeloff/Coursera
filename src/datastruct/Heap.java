@@ -77,8 +77,8 @@ public abstract class Heap<T extends Comparable<T>> {
 
 
     protected void increaseSize() {
-        if (elements.length == lastIndex) {
-            elements = Arrays.copyOf(elements, elements.length * 2);
+      if (elements.length == lastIndex) {
+               elements = Arrays.copyOf(elements, elements.length * 2);
         }
     }
 
