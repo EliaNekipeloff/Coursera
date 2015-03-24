@@ -23,4 +23,16 @@ public class TwoSumCounterTest {
         TwoSumCounter counter = new TwoSumCounter("array2.txt");
         assertEquals(5, counter.countWithSort(10));
     }
+
+    @Test
+    public void testRepeatedElsWithHashSet() throws Exception {
+        TwoSumCounter counter = new TwoSumCounter("array3.txt");
+        assertEquals(5, counter.count(10));
+    }
+
+    @Test
+    public void testRepeatedElsWithSort() throws Exception {
+        TwoSumCounter counter = new TwoSumCounter("array3.txt");
+        assertEquals(5, counter.countWithSort(10));
+    }
 }

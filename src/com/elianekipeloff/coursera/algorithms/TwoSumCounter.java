@@ -21,7 +21,7 @@ public class TwoSumCounter {
 
 
     public TwoSumCounter(String path) throws IOException {
-        array =  DataReader.readIntegerArray(DataReader.getSourcePath(path));
+        array = DataReader.readIntegerArray(DataReader.getSourcePath(path));
 
     }
 
@@ -36,7 +36,8 @@ public class TwoSumCounter {
         }
         return count;
     }
-    public  int count(int sum) {
+
+    public int count(int sum) {
         int count = 0;
         HashSet<Integer> hashSet = new HashSet<>();
         for (int el : array) {
@@ -45,10 +46,16 @@ public class TwoSumCounter {
         int i = 0;
         while (hashSet.size() > 0 && i < array.length) {
             int el = array[i];
-            hashSet.remove(el);
-            int addition = sum - el;
-            if (hashSet.find(addition)) {
-                count++;
+            if (hashSet.find(el)) {
+                hashSet.remove(el);
+                int addition = sum - el;
+
+                if (hashSet.find(addition)) {
+                    count++;
+                    hashSet.remove(addition);
+                    System.out.println("Counted! " + sum + " = " + array[i] + " + " + addition);
+                }
+
             }
             i++;
         }
@@ -60,10 +67,17 @@ public class TwoSumCounter {
         int count = 0;
         for (int i = 0; i < array.length; i++) {
             int addition = sum - array[i];
-            if (Arrays.binarySearch(array, addition) > i ) {
-                count++;
-                System.out.println("Counted! " + sum + " = " + array[i] + " + " + addition);
-            }
+            int startIndex = i + 1;
+            int found;
+            boolean founded = false;
+            do {
+                found = Arrays.binarySearch(array, startIndex, array.length -1, addition);
+                if (found >= 0 ) {
+                    startIndex = found + 1;
+                    founded = true;
+                }
+            } while (found >= 0 && startIndex < array.length - 2);
+            if (founded) count++;
         }
         return count;
     }

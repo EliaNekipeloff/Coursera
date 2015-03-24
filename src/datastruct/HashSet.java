@@ -32,14 +32,15 @@ public class HashSet<T> {
         }
 
         if (!find(key)) {
-            int newIndex = hash(key);
+            int newIndex = key.hashCode();
             if (newIndex > headsNum) {
                 elements = Arrays.copyOf(elements, hash(key) * 2);
-                headsNum = newIndex + 1;
+
             }
             elements[newIndex] = new ArrayList<>();
             elements[newIndex].add(key);
             size++;
+            headsNum++;
 
         } else {
             if (elements[hash(key)] != null) {
@@ -52,11 +53,11 @@ public class HashSet<T> {
 
     public void remove(T key) {
         int index = hash(key);
-        if (index == -1) {
-            throw new RuntimeException("Object " + key + "not found");
+        if (index == -1 || elements[index] == null) {
+            throw new RuntimeException("Object " + key + " not found");
         }
         size--;
-        if (elements[index].size() > 0) {
+        if (elements[index].size() > 1) {
             Iterator<T> iterator = elements[index].iterator();
             while (iterator.hasNext()) {
                 if (iterator.next().equals(key)) {
@@ -92,16 +93,6 @@ public class HashSet<T> {
 
     private int hash(T key) {
         return Math.abs(key.hashCode()) % headsNum;
-    }
-
-    private class Pair<K, V> {
-        final K key;
-        V value;
-
-        public Pair(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
     }
 
 
